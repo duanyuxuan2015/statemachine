@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stateMachine
+    id="stateMachine"
+    listenerClass="com.example.StateMachineListener1"
+    persisterBean="taskPersister1"
+	xmlns="http://example.com/state-machine-definition">
+
+    <externalTransition from="STATE1" to="STATE2" on="EVENT1" actionBean = "action1">
+        <conditionExpression>
+            <![CDATA[ #ctx.name == 'jack' ]]>
+        </conditionExpression>
+    </externalTransition>
+
+    <externalTransition from="STATE2" to="STATE3" on="EVENT2" actionBean = "action1" conditionBean="condition1"/>
+
+    <externalTransition from="STATE3" to="STATE4" on="EVENT3" actionBean = "action1"/>
+
+    <internalTransition within="STATE1" on="EVENT2" actionBean = "action1" conditionBean="condition2"/>
+
+    <reconcileTask state="STATE2" period="5" reconcileHandlerBean="reconcileHandler1"/>
+    <reconcileTask state="STATE3" period="5" reconcileHandlerBean="reconcileHandler1"/>
+</stateMachine>

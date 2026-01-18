@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://example.com/state-machine-definition"
+        xmlns:sm="http://example.com/state-machine-definition"
+        elementFormDefault="qualified">
+
+    <!-- 根元素 stateMachine -->
+    <xsd:element name="stateMachine" type="sm:StateMachineType"/>
+
+    <xsd:complexType name="StateMachineType">
+        <xsd:sequence>
+            <!-- 允许包含多个 externalTransition 和 internalTransition 元素，顺序不限 -->
+            <xsd:element
+                    name="externalTransition"
+                    type="sm:ExternalTransition"
+                    minOccurs="0"
+                    maxOccurs="unbounded"/>
+            <xsd:element
+                    name="externalTransitions"
+                    type="sm:ExternalTransitions"
+                    minOccurs="0"
+                    maxOccurs="unbounded"/>
+            <xsd:element
+                    name="internalTransition"
+                    type="sm:InternalTransition"
+                    minOccurs="0"
+                    maxOccurs="unbounded"/>
+            <xsd:element
+                    name="reconcileTask"
+                    type="sm:ReconcileTask"
+                    minOccurs="0"
+                    maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <!-- stateMachine 的 id 属性 -->
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="listenerClass" type="xsd:string" use="optional"/>
+        <xsd:attribute name="listenerBean" type="xsd:string" use="optional"/>
+        <xsd:attribute name="persisterClass" type="xsd:string" use="optional"/>
+        <xsd:attribute name="persisterBean" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ExternalTransition">
+        <xsd:sequence>
+            <!-- 包含 conditionExpression 子元素 -->
+            <xsd:element
+                    name="conditionExpression"
+                    type="sm:ConditionExpressionType"
+                    minOccurs="0"
+                    maxOccurs="1"/>
+        </xsd:sequence>
+        <!-- externalTransition 的属性 -->
+        <xsd:attribute name="from" type="xsd:string" use="required"/>
+        <xsd:attribute name="to" type="xsd:string" use="required"/>
+        <xsd:attribute name="on" type="xsd:string" use="required"/>
+        <xsd:attribute name="actionClass" type="xsd:string" use="optional"/>
+        <xsd:attribute name="actionBean" type="xsd:string" use="optional"/>
+        <xsd:attribute name="conditionClass" type="xsd:string" use="optional"/>
+        <xsd:attribute name="conditionBean" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="ExternalTransitions">
+        <xsd:sequence>
+            <!-- 包含 conditionExpression 子元素 -->
+            <xsd:element
+                    name="conditionExpression"
+                    type="sm:ConditionExpressionType"
+                    minOccurs="0"
+                    maxOccurs="1"/>
+        </xsd:sequence>
+        <!-- externalTransition 的属性 -->
+        <xsd:attribute name="fromAmong" type="xsd:string" use="required"/>
+        <xsd:attribute name="to" type="xsd:string" use="required"/>
+        <xsd:attribute name="on" type="xsd:string" use="required"/>
+        <xsd:attribute name="actionClass" type="xsd:string" use="optional"/>
+        <xsd:attribute name="actionBean" type="xsd:string" use="optional"/>
+        <xsd:attribute name="conditionClass" type="xsd:string" use="optional"/>
+        <xsd:attribute name="conditionBean" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="InternalTransition">
+        <xsd:sequence>
+            <!-- 包含 conditionExpression 子元素 -->
+            <xsd:element
+                    name="conditionExpression"
+                    type="sm:ConditionExpressionType"
+                    minOccurs="0"
+                    maxOccurs="1"/>
+        </xsd:sequence>
+        <!-- internalTransition 的属性 -->
+        <xsd:attribute name="within" type="xsd:string" use="required"/>
+        <xsd:attribute name="on" type="xsd:string" use="required"/>
+        <xsd:attribute name="actionClass" type="xsd:string" use="optional"/>
+        <xsd:attribute name="actionBean" type="xsd:string" use="optional"/>
+        <xsd:attribute name="conditionClass" type="xsd:string" use="optional"/>
+        <xsd:attribute name="conditionBean" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ReconcileTask">
+        <xsd:attribute name="state" type="xsd:string" use="required"/>
+        <xsd:attribute name="period" type="xsd:int" use="optional"/>
+        <xsd:attribute name="cronExpression" type="xsd:string" use="optional"/>
+        <xsd:attribute name="reconcileHandlerClass" type="xsd:string" use="optional"/>
+        <xsd:attribute name="reconcileHandlerBean" type="xsd:string" use="optional"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="ConditionExpressionType" mixed="true">
+        <xsd:sequence>
+            <xsd:any
+                    minOccurs="0"
+                    maxOccurs="1"
+                    processContents="lax"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>
